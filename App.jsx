@@ -3,7 +3,6 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import InfoList from './src/views/InfoList/InfoList';
-
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
