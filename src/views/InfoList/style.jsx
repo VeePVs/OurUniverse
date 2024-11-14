@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 20,
         top: 140,
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     datePicker: {
         width: 330,
@@ -20,15 +20,20 @@ const styles = StyleSheet.create({
       },
       dateTextContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
     },
     dateButton: {
         height:40,
         backgroundColor: '#dd5',
         justifyContent: 'center',
+        marginBottom: 10,
     },
     dateButtonText: {
-        textAlign: 'center'
+        textAlign: 'center',
+    },
+    APODList: {
+        flexDirection: 'row',
+        justifyContent: 'center',
     }
 })
 

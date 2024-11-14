@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { getAPOD } from '../../../lib/APIs/NasaAPI';
 import styles from './style';
 import DateText from '../../components/DateText/DateText';
+import APODItem from '../../components/APODItem.jsx/APODItem';
 
 const APODList = () => {
   const [range, setRange] = useState({
@@ -30,6 +31,14 @@ const APODList = () => {
       duration: 400,
       useNativeDriver: true,
     }).start(() => setIsVisible(false));
+  };
+
+  const groupTwo = (arr) => {
+    let grouped = [];
+    for (let i = 0; i < arr.length; i += 3) {
+      grouped.push(arr.slice(i, i + 3));
+    }
+    return grouped;
   };
 
   return (
@@ -63,6 +72,23 @@ const APODList = () => {
           </View>
         </Animated.View>
       )}
+      <View style={styles.APODList}>
+        {
+          groupTwo([1,2,3,4,5]).map((APOD)=>
+            (
+              <View style={{flexDirection: 'column', width: '50%'}}>
+                {
+                  APOD.map((item) => (
+                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                      <APODItem/>
+                    </View>
+                  ))
+                }
+              </View>
+            )
+          )
+        }
+      </View>
     </SafeAreaView>
   );
 };
