@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Pressable, Animated } from 'react-native';
+import { View, Text, SafeAreaView, Pressable, Animated, ScrollView } from 'react-native';
 import React, { useState, useRef } from 'react';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
@@ -15,6 +15,7 @@ const APODList = () => {
   const [isVisible, setIsVisible] = useState(false);
   
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const arr = [1,2,3,4,5,6,7,8,9,10,11];
 
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
@@ -35,8 +36,8 @@ const APODList = () => {
 
   const groupTwo = (arr) => {
     let grouped = [];
-    for (let i = 0; i < arr.length; i += 3) {
-      grouped.push(arr.slice(i, i + 3));
+    for (let i = 0; i < arr.length; i += 2) {
+      grouped.push(arr.slice(i, i + 2));
     }
     return grouped;
   };
@@ -72,14 +73,15 @@ const APODList = () => {
           </View>
         </Animated.View>
       )}
-      <View style={styles.APODList}>
+      <ScrollView style={styles.APODList}>
         {
-          groupTwo([1,2,3,4,5]).map((APOD)=>
+          
+          groupTwo([1,2,3,4,5,6,7,8,9,10,11]).map((APOD)=>
             (
-              <View style={{flexDirection: 'column', width: '50%'}}>
+              <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center'}}>
                 {
                   APOD.map((item) => (
-                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    <View style={{flexDirection: 'column', justifyContent: 'center', width: '50%',alignItems: 'center'}}>
                       <APODItem/>
                     </View>
                   ))
@@ -88,7 +90,7 @@ const APODList = () => {
             )
           )
         }
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

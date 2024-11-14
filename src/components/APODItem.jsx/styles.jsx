@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
         marginTop: 15,
         position: 'relative',
         borderRadius: 5,
+        justifyContent: 'center'
     },
     date: {
         position: 'absolute',

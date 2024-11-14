@@ -32,8 +32,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     APODList: {
-        flexDirection: 'row',
-        justifyContent: 'center',
     }
 })
 
