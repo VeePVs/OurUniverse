@@ -1,5 +1,5 @@
-import { View, Text, SafeAreaView, Pressable, Animated, ScrollView } from 'react-native';
-import React, { useState, useRef } from 'react';
+import { View, Text, SafeAreaView, Pressable, Animated, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import { getAPOD } from '../../../lib/APIs/NasaAPI';
@@ -13,9 +13,9 @@ const APODList = () => {
     endDate: undefined
   });
   const [isVisible, setIsVisible] = useState(false);
-  
+  const [APODList, setAPODList] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const arr = [1,2,3,4,5,6,7,8,9,10,11];
 
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
@@ -36,18 +36,43 @@ const APODList = () => {
 
   const groupTwo = (arr) => {
     let grouped = [];
+    let idCounter = 1;
+  
     for (let i = 0; i < arr.length; i += 2) {
-      grouped.push(arr.slice(i, i + 2));
+      grouped.push({
+        id: idCounter,
+        items: arr.slice(i, i + 2),
+      });
+      idCounter++;
     }
     return grouped;
   };
 
+  useEffect( () => {
+    const suscribe = async () => await getAPOD();
+    return suscribe;
+  }, [])
+  
+
   return (
-    <SafeAreaView>
-      <Pressable style={{ backgroundColor: '#445', height: 50 }} onPress={async () => {
-        /* const req = await getAPOD('2024-10-06', '2024-10-10'); */
+    <SafeAreaView style={styles.APODList}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>OurUniverse</Text>
+      </View>
+      <Pressable style={styles.searchButton} onPress={async () => {
+        if (range.endDate == undefined) {
+          setLoading(true);
+          const req = await getAPOD(range.startDate.format('YYYY-MM-DD'),range.startDate.format('YYYY-MM-DD'));
+          setLoading(false);
+          setAPODList(req);
+        }else{
+          setLoading(true);
+          const req = await getAPOD(range.startDate.format('YYYY-MM-DD'), range.endDate.format('YYYY-MM-DD'));
+          setLoading(false);
+          setAPODList(req);
+        }
       }}>
-        <Text>sadasds</Text>
+        <Text style={styles.searchButtonText}>Search Astronomy Picture of the Day</Text>
       </Pressable>
       <View style={styles.dateTextContainer}>
         <DateText date={range.startDate.format('YYYY-MM-DD')} />
@@ -73,16 +98,16 @@ const APODList = () => {
           </View>
         </Animated.View>
       )}
-      <ScrollView style={styles.APODList}>
+      
+      <ScrollView>
         {
-          
-          groupTwo([1,2,3,4,5,6,7,8,9,10,11]).map((APOD)=>
+          groupTwo(APODList).map((APOD)=>
             (
-              <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center'}}>
+              <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={APOD.id}>
                 {
-                  APOD.map((item) => (
-                    <View style={{flexDirection: 'column', justifyContent: 'center', width: '50%',alignItems: 'center'}}>
-                      <APODItem/>
+                  APOD.items.map((item) => (
+                    <View style={{flexDirection: 'column', justifyContent: 'center', width: '50%',alignItems: 'center'}} key={item.date}>
+                      <APODItem title={item.title} date={item.date} explication={item.explanation} key={item.id}/>
                     </View>
                   ))
                 }
@@ -91,6 +116,14 @@ const APODList = () => {
           )
         }
       </ScrollView>
+      {
+        isLoading && (
+          <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" color="#FFF" />
+            <Text style={styles.loadingText}>Loading...</Text>
+          </View>
+        )
+      }
     </SafeAreaView>
   );
 };
