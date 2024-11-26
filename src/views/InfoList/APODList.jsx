@@ -7,7 +7,7 @@ import styles from './style';
 import DateText from '../../components/DateText/DateText';
 import APODItem from '../../components/APODItem.jsx/APODItem';
 
-const APODList = () => {
+const APODList = ({navigation}) => {
   const [range, setRange] = useState({
     startDate: dayjs(),
     endDate: undefined
@@ -93,7 +93,8 @@ const APODList = () => {
               initialView="month"
               startDate={range.startDate}
               endDate={range.endDate}
-              onChange={({ startDate, endDate }) => { setRange({ startDate, endDate }) }}
+              onChange={({ startDate, endDate }) => { setRange({ startDate, endDate })}}
+              selectedItemColor="#9381ff"
             />
           </View>
         </Animated.View>
@@ -106,9 +107,15 @@ const APODList = () => {
               <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={APOD.id}>
                 {
                   APOD.items.map((item) => (
-                    <View style={{flexDirection: 'column', justifyContent: 'center', width: '50%',alignItems: 'center'}} key={item.date}>
-                      <APODItem title={item.title} date={item.date} explication={item.explanation} key={item.id}/>
-                    </View>
+                    <Pressable 
+                      style={{flexDirection: 'column', justifyContent: 'center', width: '50%',alignItems: 'center'}} 
+                      key={item.date}
+                      onPress={()=>{
+                        navigation.navigate('infoAPOD', item);
+                      }}
+                      >
+                        <APODItem title={item.title} date={item.date} explication={item.explanation} key={item.id}/>
+                    </Pressable>
                   ))
                 }
               </View>

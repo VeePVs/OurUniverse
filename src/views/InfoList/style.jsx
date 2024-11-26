@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     },
     datePicker: {
         width: 330,
-        backgroundColor: '#fff',
+        backgroundColor: '#f9cff2',
         padding: 15,
         borderRadius: 15,
         shadowRadius: 20,
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         height: '100%',
         backgroundColor: colors.background,
+        paddingBottom: 10,
     },
     loadingOverlay: {
         position: 'absolute',
