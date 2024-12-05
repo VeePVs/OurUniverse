@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
         height: '50%',
         alignItems: 'center',
         backgroundColor: '#1a1a1a',
+        position: 'relative'
     },
     containerTitle: {
         height: 'auto',
@@ -49,5 +50,23 @@ export const styles = StyleSheet.create({
     copyright: {
         color: "#FFF",
         padding: 10,
+    },
+    buttonHD: {
+        backgroundColor: "#52154e",
+        height: 50,
+        width: 50,
+        zIndex:10,
+        borderRadius: 25,
+        position: 'absolute',
+        justifyContent: 'center',
+        left: 0,
+        bottom: 0,
+        margin: 10,
+    },
+    buttonHDText: {
+        color: '#ffeedd',
+        fontWeight: '800',
+        fontSize: 16,
+        textAlign: 'center'
     }
 })

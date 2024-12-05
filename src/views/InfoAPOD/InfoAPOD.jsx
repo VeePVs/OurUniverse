@@ -1,5 +1,5 @@
-import {View, Text, SafeAreaView, Image, ScrollView} from 'react-native';
-import React from 'react';
+import {View, Text, SafeAreaView, Image, ScrollView, Pressable} from 'react-native';
+import React, { useState } from 'react';
 import {styles} from './styles';
 import {Gesture, GestureDetector, GestureHandlerRootView} from 'react-native-gesture-handler';
 import Animated, {
@@ -11,6 +11,7 @@ const InfoAPOD = ({route}) => {
   const {title, url, hdurl, date, explanation, copyright} = route.params;
   const scale = useSharedValue(1);
   const savedScale = useSharedValue(1);
+  const [isHD,setIsHD] = useState(false);
 
   const pinchGesture = Gesture.Pinch()
     .onUpdate(e => {
@@ -25,21 +26,28 @@ const InfoAPOD = ({route}) => {
   }));
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
       <ScrollView style={styles.container}>
         <View style={styles.containerImage}>
-          <GestureDetector gesture={pinchGesture}>
-              <Animated.Image source={{uri: url}} style={[styles.image, animatedStyle]} />
-          </GestureDetector>
+              <Animated.Image source={{uri: isHD ? hdurl : url}} style={[styles.image]} />
+              <Pressable style={styles.buttonHD} onPress={()=>{
+                setIsHD(!isHD);
+              }}>
+                <Text style={styles.buttonHDText}>{isHD ? 'noHD' : 'HD'}</Text>
+              </Pressable>
         </View>
         <View style={styles.containerTitle}>
           <Text style={styles.title}>{title}</Text>
         </View>
         <Text style={styles.date}>{date}</Text>
         <Text style={styles.explanation}>{explanation}</Text>
-        <Text style={styles.copyright}>Copyright: {copyright}</Text>
+        {
+          copyright != null
+          ? 
+          (<Text style={styles.copyright}>Copyright: {copyright}</Text>) 
+          :
+          null
+        }
       </ScrollView>
-    </GestureHandlerRootView>
   );
 };
 
