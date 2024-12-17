@@ -55,83 +55,90 @@ const APODList = ({navigation}) => {
   
 
   return (
-    <SafeAreaView style={styles.APODList}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>OurUniverse</Text>
-      </View>
-      <Pressable style={styles.searchButton} onPress={async () => {
-        if (range.endDate == undefined) {
-          setLoading(true);
-          const req = await getAPOD(range.startDate.format('YYYY-MM-DD'),range.startDate.format('YYYY-MM-DD'));
-          setLoading(false);
-          setAPODList(req);
-        }else{
-          setLoading(true);
-          const req = await getAPOD(range.startDate.format('YYYY-MM-DD'), range.endDate.format('YYYY-MM-DD'));
-          setLoading(false);
-          setAPODList(req);
-        }
-      }}>
-        <Text style={styles.searchButtonText}>Search Astronomy Picture of the Day</Text>
-      </Pressable>
-      <View style={styles.dateTextContainer}>
-        <DateText date={range.startDate.format('YYYY-MM-DD')} />
-        <DateText date={range.endDate ? range.endDate.format('YYYY-MM-DD') : 'End Date'} />
-      </View>
-      <Pressable style={styles.dateButton} onPress={() => {
-        isVisible ? fadeOut() : fadeIn();
-      }}>
-        <Text style={styles.dateButtonText}>{!isVisible ? 'Choose a date' : 'X'}</Text>
-      </Pressable>
-      {isVisible && (
-        <Animated.View style={[styles.datePickerContainer, { opacity: fadeAnim }]}>
-          <View style={styles.datePicker}>
-            <DateTimePicker
-              headerContainerStyle={{ backgroundColor: '' }}
-              mode="range"
-              disabledDates={['2025']}
-              initialView="month"
-              startDate={range.startDate}
-              endDate={range.endDate}
-              onChange={({ startDate, endDate }) => { setRange({ startDate, endDate })}}
-              selectedItemColor="#9381ff"
-            />
-          </View>
-        </Animated.View>
-      )}
-      
-      <ScrollView>
-        {
-          groupTwo(APODList).map((APOD)=>
-            (
-              <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={APOD.id}>
-                {
-                  APOD.items.map((item) => (
-                    <Pressable 
-                      style={{flexDirection: 'column', justifyContent: 'center', width: '50%',alignItems: 'center'}} 
-                      key={item.date}
-                      onPress={()=>{
-                        navigation.navigate('infoAPOD', item);
-                      }}
-                      >
-                        <APODItem title={item.title} date={item.date} explication={item.explanation} key={item.id}/>
-                    </Pressable>
-                  ))
-                }
-              </View>
+    <View style={{ flex: 1 }} onStartShouldSetResponder={() => {
+      if (isVisible) {
+        fadeOut();
+        return true;
+      }
+      return false;
+    }}>
+      <SafeAreaView style={styles.APODList}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>OurUniverse</Text>
+        </View>
+        <Pressable style={styles.searchButton} onPress={async () => {
+          if (range.endDate == undefined) {
+            fadeOut();
+            setLoading(true);
+            const req = await getAPOD(range.startDate.format('YYYY-MM-DD'),range.startDate.format('YYYY-MM-DD'));
+            setLoading(false);
+            setAPODList(req);
+          }else{
+            fadeOut();
+            setLoading(true);
+            const req = await getAPOD(range.startDate.format('YYYY-MM-DD'), range.endDate.format('YYYY-MM-DD'));
+            setLoading(false);
+            setAPODList(req);
+          }
+        }}>
+          <Text style={styles.searchButtonText}>Search Astronomy Picture of the Day</Text>
+        </Pressable>
+        <Pressable style={styles.dateTextContainer}onPress={() => {
+          isVisible ? fadeOut() : fadeIn();
+        }}>
+          <DateText date={range.startDate.format('YYYY-MM-DD')} />
+          <DateText date={range.endDate ? range.endDate.format('YYYY-MM-DD') : 'End Date'} />
+        </Pressable>
+        {isVisible && (
+          <Animated.View style={[styles.datePickerContainer, { opacity: fadeAnim }]}>
+            <View style={styles.datePicker}>
+              <DateTimePicker
+                headerContainerStyle={{ backgroundColor: '' }}
+                mode="range"
+                disabledDates={['2025']}
+                initialView="month"
+                startDate={range.startDate}
+                endDate={range.endDate}
+                onChange={({ startDate, endDate }) => { setRange({ startDate, endDate })}}
+                selectedItemColor="#9381ff"
+              />
+            </View>
+          </Animated.View>
+        )}
+        
+        <ScrollView>
+          {
+            groupTwo(APODList).map((APOD)=>
+              (
+                <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={APOD.id}>
+                  {
+                    APOD.items.map((item) => (
+                      <Pressable 
+                        style={{flexDirection: 'column', justifyContent: 'center', width: '50%',alignItems: 'center'}} 
+                        key={item.date}
+                        onPress={()=>{
+                          navigation.navigate('infoAPOD', item);
+                        }}
+                        >
+                          <APODItem title={item.title} date={item.date} explication={item.explanation} key={item.id}/>
+                      </Pressable>
+                    ))
+                  }
+                </View>
+              )
             )
+          }
+        </ScrollView>
+        {
+          isLoading && (
+            <View style={styles.loadingOverlay}>
+              <ActivityIndicator size="large" color="#FFF" />
+              <Text style={styles.loadingText}>Loading...</Text>
+            </View>
           )
         }
-      </ScrollView>
-      {
-        isLoading && (
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color="#FFF" />
-            <Text style={styles.loadingText}>Loading...</Text>
-          </View>
-        )
-      }
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 };
 

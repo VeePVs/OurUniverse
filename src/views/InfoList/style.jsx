@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         zIndex: 20,
-        top: 200,
+        top: 150,
         alignSelf: 'center',
     },
     datePicker: {
