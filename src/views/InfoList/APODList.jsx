@@ -9,13 +9,14 @@ import APODItem from '../../components/APODItem.jsx/APODItem';
 
 const APODList = ({navigation}) => {
   const [range, setRange] = useState({
-    startDate: dayjs(),
+    startDate: undefined,
     endDate: undefined
   });
   const [isVisible, setIsVisible] = useState(false);
   const [APODList, setAPODList] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const today = new Date();
 
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
@@ -86,7 +87,7 @@ const APODList = ({navigation}) => {
         <Pressable style={styles.dateTextContainer}onPress={() => {
           isVisible ? fadeOut() : fadeIn();
         }}>
-          <DateText date={range.startDate.format('YYYY-MM-DD')} />
+          <DateText date={range.startDate ? range.startDate.format('YYYY-MM-DD') : 'Start Date'} />
           <DateText date={range.endDate ? range.endDate.format('YYYY-MM-DD') : 'End Date'} />
         </Pressable>
         {isVisible && (
@@ -95,10 +96,10 @@ const APODList = ({navigation}) => {
               <DateTimePicker
                 headerContainerStyle={{ backgroundColor: '' }}
                 mode="range"
-                disabledDates={['2025']}
                 initialView="month"
                 startDate={range.startDate}
                 endDate={range.endDate}
+                maxDate={dayjs()}
                 onChange={({ startDate, endDate }) => { setRange({ startDate, endDate })}}
                 selectedItemColor="#9381ff"
               />
