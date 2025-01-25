@@ -10,13 +10,12 @@ import APODItem from '../../components/APODItem.jsx/APODItem';
 const APODList = ({navigation}) => {
   const [range, setRange] = useState({
     startDate: undefined,
-    endDate: undefined
+    endDate: undefined,
   });
   const [isVisible, setIsVisible] = useState(false);
-  const [APODList, setAPODList] = useState([]);
+  const [APODLists, setAPODList] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const today = new Date();
 
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
@@ -38,7 +37,7 @@ const APODList = ({navigation}) => {
   const groupTwo = (arr) => {
     let grouped = [];
     let idCounter = 1;
-  
+
     for (let i = 0; i < arr.length; i += 2) {
       grouped.push({
         id: idCounter,
@@ -52,11 +51,11 @@ const APODList = ({navigation}) => {
   useEffect( () => {
     const suscribe = async () => await getAPOD();
     return suscribe;
-  }, [])
-  
+  }, []);
+
 
   return (
-    <View style={{ flex: 1 }} onStartShouldSetResponder={() => {
+    <View style={{flex: 1}} onStartShouldSetResponder={() => {
       if (isVisible) {
         fadeOut();
         return true;
@@ -106,10 +105,10 @@ const APODList = ({navigation}) => {
             </View>
           </Animated.View>
         )}
-        
+
         <ScrollView>
           {
-            groupTwo(APODList).map((APOD)=>
+            groupTwo(APODLists).map((APOD)=>
               (
                 <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center'}} key={APOD.id}>
                   {

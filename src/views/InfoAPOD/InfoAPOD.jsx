@@ -1,7 +1,6 @@
 import {View, Text, SafeAreaView, Image, ScrollView, Pressable} from 'react-native';
 import React, { useState } from 'react';
 import {styles} from './styles';
-import {Gesture, GestureDetector, GestureHandlerRootView} from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -9,21 +8,7 @@ import Animated, {
 
 const InfoAPOD = ({route}) => {
   const {title, url, hdurl, date, explanation, copyright} = route.params;
-  const scale = useSharedValue(1);
-  const savedScale = useSharedValue(1);
   const [isHD,setIsHD] = useState(false);
-
-  const pinchGesture = Gesture.Pinch()
-    .onUpdate(e => {
-      scale.value = savedScale.value * e.scale;
-    })
-    .onEnd(() => {
-      savedScale.value = scale.value;
-    });
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{scale: scale.value}],
-  }));
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,6 +18,9 @@ const InfoAPOD = ({route}) => {
               setIsHD(!isHD);
             }}>
               <Text style={styles.buttonHDText}>{isHD ? 'noHD' : 'HD'}</Text>
+            </Pressable>
+            <Pressable style={styles.fullScreenButton}>
+              <Text style={styles.fullScreenText}>[  ]</Text>
             </Pressable>
           </View>
           <View style={styles.containerTitle}>

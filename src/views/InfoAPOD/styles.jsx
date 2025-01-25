@@ -34,12 +34,12 @@ export const styles = StyleSheet.create({
         backgroundColor: '#1a1a1a',
     },
     date: {
-        color: "#efe9e7",
+        color: '#efe9e7',
         fontSize: 24,
         paddingTop: 10,
         paddingLeft: 10,
         fontStyle: 'italic',
-        fontWeight: '800'
+        fontWeight: '800',
     },
     explanation: {
         color: "#ffeedd",
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
         padding: 10,
     },
     buttonHD: {
-        backgroundColor: "#52154e",
+        backgroundColor: '#52154e',
         height: 50,
         width: 50,
         zIndex:10,
@@ -67,6 +67,24 @@ export const styles = StyleSheet.create({
         color: '#ffeedd',
         fontWeight: '800',
         fontSize: 16,
-        textAlign: 'center'
-    }
-})
+        textAlign: 'center',
+    },
+    fullScreenButton: {
+        backgroundColor: "#52154e",
+        height: 50,
+        width: 50,
+        zIndex:10,
+        borderRadius: 25,
+        position: 'absolute',
+        justifyContent: 'center',
+        right: 0,
+        bottom: 0,
+        margin: 10,
+    },
+    fullScreenText: {
+        color: '#ffeedd',
+        fontWeight: '800',
+        fontSize: 16,
+        textAlign: 'center',
+    },
+});
