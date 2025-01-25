@@ -5,10 +5,12 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+import {useNavigation} from '@react-navigation/native';
 
 const InfoAPOD = ({route}) => {
   const {title, url, hdurl, date, explanation, copyright} = route.params;
   const [isHD,setIsHD] = useState(false);
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -19,7 +21,7 @@ const InfoAPOD = ({route}) => {
             }}>
               <Text style={styles.buttonHDText}>{isHD ? 'noHD' : 'HD'}</Text>
             </Pressable>
-            <Pressable style={styles.fullScreenButton}>
+            <Pressable style={styles.fullScreenButton} onPress={()=> navigation.navigate('ImageScreen', {title, url, hdurl})}>
               <Text style={styles.fullScreenText}>[  ]</Text>
             </Pressable>
           </View>

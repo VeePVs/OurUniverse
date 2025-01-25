@@ -6,6 +6,7 @@ import APODList from './src/views/InfoList/APODList';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import InfoAPOD from './src/views/InfoAPOD/InfoAPOD';
+import ImageScreen from './src/views/ImageScreen/ImageScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -42,6 +43,16 @@ function StackScreens(){
         component={InfoAPOD}
         options={{
           headerTitle: 'APOD details',
+          headerStyle: {backgroundColor: '#52154e'},
+          headerTitleStyle: {color: '#efe9e7', fontWeight: '800'},
+          headerTintColor: '#efe9e7',
+        }}
+      />
+      <Stack.Screen
+        name="ImageScreen"
+        component={ImageScreen}
+        options={{
+          headerTitle: 'Full image',
           headerStyle: {backgroundColor: '#52154e'},
           headerTitleStyle: {color: '#efe9e7', fontWeight: '800'},
           headerTintColor: '#efe9e7',
