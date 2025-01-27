@@ -20,7 +20,7 @@ const InfoAPOD = ({route}) => {
   }));
 
   const animatedStyleFullScreen = useAnimatedStyle(() => ({
-    opacity: scaleFullScreen.value
+    opacity: scaleFullScreen.value,
   }));
 
   return (
