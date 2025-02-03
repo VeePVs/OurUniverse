@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   useSharedValue,
@@ -9,7 +9,7 @@ import Animated, {
 
 const ImageScreen = ({ route }) => {
   const { hdurl } = route.params;
-
+  const [isLoading, setIsLoading] = useState(true);
   const scale = useSharedValue(1);
   const savedScale = useSharedValue(1);
   const translateX = useSharedValue(0);
@@ -63,11 +63,17 @@ const ImageScreen = ({ route }) => {
   return (
     <GestureHandlerRootView style={styles.container}>
       <GestureDetector gesture={composedGesture}>
-        <Animated.Image
-          source={{ uri: hdurl }}
-          style={[styles.image, animatedStyle]}
-          resizeMode="contain"
-        />
+        <View style={styles.imageContainer}>
+          {isLoading && 
+            (<ActivityIndicator size={"large"} color={"#FFF"} style={styles.indicator}/>)
+          }
+          <Animated.Image
+            source={{ uri: hdurl }}
+            style={[styles.image, animatedStyle]}
+            resizeMode="contain"
+            onLoad={()=> setIsLoading(false)}
+          />
+        </View>
       </GestureDetector>
     </GestureHandlerRootView>
   );
@@ -81,6 +87,14 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
+  },
+  indicator: {
+    position: "absolute"
+  },
+  imageContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
